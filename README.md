@@ -1,76 +1,107 @@
 # Chess AI with Computer Vision
 
-![Chess AI Logo](images/chess_ai_logo.png)
+- #### Chessboard Annotation Project with features for move tracking.
+
 
 ## Table of Contents
-1. [Introduction](#introduction)
-2. [Features](#features)
-4. [Usage](#usage)
-5. [Demo](#demo)
-6. [Contributing](#contributing)
-7. [License](#license)
 
+1. [Project Overview](#1-project-overview)
+2. [Data Collection](#2-data-collection)
+3. [Pre-Processing](#3-pre-processing)
+4. [Approaches](#4-approaches)
+   - [First Approach: CV Heuristic Functions](#first-approach-cv-heuristic-functions)
+   - [Second Approach: CNN and YOLO for Chessboard Recognition](#second-approach-cnn-and-yolo-for-chessboard-recognition)
+   - [Perspective Transform 3D to 2D Projection using Perspective Transformation](#perspective-transform-3d-to-2d-projection-using-perspective-transformation)
+   - [Neural Network Training for Chess Piece Recognition](#neural-network-training-for-chess-piece-recognition)
+5. [Integration and Enhancements](#5-integration-and-enhancements)
+   - [Integration of FEN Notation](#integration-of-fen-notation)
+   - [Hyperparameter Tuning](#hyperparameter-tuning)
+   - [Testing and Validation](#testing-and-validation)
+   - [Documentation and Open Source](#documentation-and-open-source)
+6. [Future Enhancements](#6-future-enhancements)
+7. [References and Credits](#7-references-and-credits)
+8. [Contributing](#8-contributing)
+9. [License](#9-license)
+
+
+## 1. Project Overview
+
+- **Identifying the Gap**: I initiated this project by recognizing a significant gap in the accuracy of annotating chess games during tournaments and over-the-board practice sessions.
+- All the annotations have to be done via a DGT board which feeds the move via Bluetooth or USB and this board costs upwards of 1000 USD.
+- Other ways to track games at a tournament require manual input of moves and this becomes harder when the time is low.
+- The main objective of this algorithm should be to optimize precision and process the change in the image/feed source within 1 second of input delay which is not hard given YOLO models and other inference models work way faster than multi-layered deep CNNs like Resnet and Inception v3.
+- This observation was the driving force behind the entire project.
+
+- **Literature Review**: To gain a solid foundation, I began with an extensive literature review. This step involved delving into research papers related to computer vision, chess game analysis, and deep learning techniques. The purpose was to understand the state of the art and gather insights for my project.
+
+## 2. Data Collection
+- ### Two types of data were required. One being the chess pieces, other being the chessboards.
+- given, how this data can be found on live games played on youtube videos, the combined data was not hard to source.
+- But, running into low accuracy in training, we had to split the model into two parts. One to train chessboard detection, other for chesspieces detection and then annotating the pieces on the respective squares.
+- Then I annotated all the raw data manually and made augmentations and Preprocessing.
+
+## 3. Pre-Processing
+- The following Preprocessing gave the best results:
+  - Greyscale
+  - Fit images within 1024x1024
+  - Auto-Orienting Bounding Box
+- The following Augmentations landed in best accuracy:
+  - Noise addition
+  - Rotate horizontally within the bounding box
+  - Contrast range of +-20%
+  - Rotation of +-15%
+
+## 4. Approaches
+
+### First Approach: CV Heuristic Functions
+
+- For my initial approach, Issues related to handling various angles and achieving high confidence in board recognition prompted me to explore this approach. I decided to implement computer vision (CV) heuristic functions like Shi-Tomasi corner detection, Canny edge detection, and Hough lines transformation to recognize the chessboard layout. But this lead to overlapping lines and points which were harder to predict and eliminate using even DBSCAN functions.
+
+
+### Second Approach: CNN and YOLO for Chessboard Recognition
+
+-  As I progressed, I encountered some challenges with the initial approach, I opted to leverage Convolutional Neural Networks (CNNs) and embarked on training a YOLO (You Only Look Once) deep learning model that works on Pytorch. This model's goal was to accurately detect the chessboard. This foundational step was crucial to establish a reliable starting point for game annotation.
+
+### Perspective Transform 3d to 2d projection using Perspective transfromation
+- This was a hard step and required a lot of math for it to correctly work. The linear algebra and Matrices part of it is kinda shaky and I'm trying to optimize how to perspective transform the image natively within Python.
+
+### Neural Network Training for Chess Piece Recognition
+
+- Recognizing the need for a more comprehensive solution, after training the chessboard recognition and perspective transforming it into 2d plane. I developed a neural network capable of recognizing individual chess pieces and accurately allocating their positions on the chessboard. To expedite the training process, I utilized transfer learning and incorporated pre-trained models.
+
+## 5. Integration and Enhancements
+
+- **Integration of FEN Notation**: To make the annotated games more accessible and compatible with popular chess engines like Stockfish, I integrated the Forsyth-Edwards Notation (FEN) system. This notation system allowed for a standardized representation of the chessboard and piece positions, simplifying the analysis and display of games.
+
+- **Hyperparameter Tuning**: To optimize the neural network models, I engaged in rigorous hyperparameter tuning. This process included adjusting learning rates, and batch sizes, and fine-tuning network architectures to achieve the best possible results for both chess piece recognition and board layout detection.
+
+- **Testing and Validation**: Rigorous testing and validation were essential to ensure the reliability of the developed models. I divided the dataset into training, validation, and testing sets to thoroughly assess model performance and mitigate overfitting.
+
+- **Documentation and Open Source**: In the spirit of open-source development, I meticulously documented the project and released it as an open-source tool. This step aimed to make the project accessible to chess enthusiasts, developers, and researchers, encouraging contributions and improvements.
+
+
+## 6. Future Enhancements
+- **Real-time Annotation**: Recognizing the importance of real-time annotation during over-the-board chess games, I developed a feature that allowed the system to annotate games as they unfolded. This real-time capability provided immediate feedback to players and spectators, enhancing the overall chess experience.
+
+- **Auto Learning** The model accuracy is not yet up to the mark for the dataset to be successfully implemented in real life. The perspective transform of images captured at an angle produces a challenge in correctly annotating pieces as well as assuming pieces due to previous experience and memory like a human can.
 ---
 
-## 1. Introduction
+## 7. References and Credits.
+- [Czyzewski, M. A., Laskowski, A., & Wasik, S. (2017). Chessboard and chess piece recognition with the support of neural networks. ArXiv. /abs/1708.03898](https://arxiv.org/abs/1708.03898)
+- [Chessboard Vision Roboflow](https://github.com/shainisan/real-life-chess-vision?ref=blog.roboflow.com)
+- [A Computer Vision System for Chess Game Tracking by Can Koray et al. ](https://vision.fe.uni-lj.si/cvww2016/proceedings/papers/21.pdf)
+- [Determining Chess Game State From an Image - Georg Wölflein & Ognjen Arandjelovi´c](https://arxiv.org/pdf/2104.14963.pdf)
 
-Chess AI with Computer Vision is a state-of-the-art chess-playing program that utilizes deep learning and computer vision techniques to analyze a physical chessboard and convert it into a playable digital chess game. This project combines the power of artificial intelligence with the nostalgia of traditional chess, making it accessible to both beginners and experienced players.
 
-![Chess AI in Action](images/chess_ai_in_action.png)
 
-The goal of this project is to bridge the gap between physical chessboards and digital chess applications. Now you can play your favorite game of chess on a physical board while also enjoying the convenience of digital assistance, move suggestions, and game analysis.
-
----
-
-## 2. Features
-
-- **Computer Vision Integration**: Chess AI uses computer vision algorithms to scan the physical chessboard and detect the positions of all pieces.
-
-- **Deep Learning Chess Engine**: The program employs a powerful deep learning chess engine to analyze the board and suggest moves.
-
-- **Playable Digital Game**: You can play the chess game on your computer screen, mirroring the physical board's state.
-
-- **Move Suggestions**: Chess AI provides move suggestions and highlights legal moves on the board, making it suitable for both beginners and experts.
-
-- **Game Analysis**: Review and analyze your games with detailed move-by-move analysis, piece values, and strategic insights.
-
-- **Beautiful User Interface**: Enjoy an attractive and intuitive user interface for a seamless chess experience.
-
-- **Multiplayer Support**: Play against friends or test your skills against the AI with adjustable difficulty levels.
 
 ---
-
-## 4. Usage
-
-1. Launch the Chess AI application.
-
-2. Place your physical chessboard in front of the webcam, ensuring that the board is clearly visible.
-
-3. Chess AI will scan the board and display the current position on the screen.
-
-4. To make a move, simply move the piece on the physical board. Chess AI will detect the move and update the digital board accordingly.
-
-5. If you need move suggestions or game analysis, use the on-screen options to access these features.
-
-![Chess AI Interface](images/chess_ai_interface.png)
-
----
-
-## 5. Demo
-
-Check out this short video demonstration to see Chess AI in action:
-
-[![Chess AI Demo](images/chess_ai_demo_thumbnail.png)](https://www.youtube.com/watch?v=yourvideourl)
-
----
-
-## 6. Contributing
+## 8. Contributing
 
 We welcome contributions from the open-source community. If you'd like to contribute to the development of Chess AI, please follow our [Contribution Guidelines](CONTRIBUTING.md).
 
 ---
-
-## 7. License
+## 9. License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
