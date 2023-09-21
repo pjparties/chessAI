@@ -54,6 +54,7 @@
 ### First Approach: CV Heuristic Functions
 
 - For my initial approach, Issues related to handling various angles and achieving high confidence in board recognition prompted me to explore this approach. I decided to implement computer vision (CV) heuristic functions like Shi-Tomasi corner detection, Canny edge detection, and Hough lines transformation to recognize the chessboard layout. But this lead to overlapping lines and points which were harder to predict and eliminate using even DBSCAN functions.
+
 ![image](https://i.imgur.com/290LJvE.png)
 ![image](https://i.imgur.com/SUukeZe.png)
 
