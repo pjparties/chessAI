@@ -1,27 +1,25 @@
 # Chess AI with Computer Vision
 
 - #### Chessboard Annotation Project with features for move tracking.
-
+![image](https://i.imgur.com/uIS52Rj.jpg)
 
 ## Table of Contents
 
-1. [Project Overview](#1-project-overview)
-2. [Data Collection](#2-data-collection)
-3. [Pre-Processing](#3-pre-processing)
-4. [Approaches](#4-approaches)
-   - [First Approach: CV Heuristic Functions](#first-approach-cv-heuristic-functions)
-   - [Second Approach: CNN and YOLO for Chessboard Recognition](#second-approach-cnn-and-yolo-for-chessboard-recognition)
-   - [Perspective Transform 3D to 2D Projection using Perspective Transformation](#perspective-transform-3d-to-2d-projection-using-perspective-transformation)
-   - [Neural Network Training for Chess Piece Recognition](#neural-network-training-for-chess-piece-recognition)
-5. [Integration and Enhancements](#5-integration-and-enhancements)
-   - [Integration of FEN Notation](#integration-of-fen-notation)
-   - [Hyperparameter Tuning](#hyperparameter-tuning)
-   - [Testing and Validation](#testing-and-validation)
-   - [Documentation and Open Source](#documentation-and-open-source)
-6. [Future Enhancements](#6-future-enhancements)
-7. [References and Credits](#7-references-and-credits)
-8. [Contributing](#8-contributing)
-9. [License](#9-license)
+- [Chess AI with Computer Vision](#chess-ai-with-computer-vision)
+  - [Table of Contents](#table-of-contents)
+  - [1. Project Overview](#1-project-overview)
+  - [2. Data Collection](#2-data-collection)
+  - [3. Pre-Processing](#3-pre-processing)
+  - [4. Approaches](#4-approaches)
+    - [First Approach: CV Heuristic Functions](#first-approach-cv-heuristic-functions)
+    - [Second Approach: CNN and YOLO for Chessboard Recognition](#second-approach-cnn-and-yolo-for-chessboard-recognition)
+    - [Perspective Transform 3d to 2d projection using Perspective transfromation](#perspective-transform-3d-to-2d-projection-using-perspective-transfromation)
+    - [Neural Network Training for Chess Piece Recognition](#neural-network-training-for-chess-piece-recognition)
+  - [5. Integration and Enhancements](#5-integration-and-enhancements)
+  - [6. Future Enhancements](#6-future-enhancements)
+  - [7. References and Credits.](#7-references-and-credits)
+  - [8. Contributing](#8-contributing)
+  - [9. License](#9-license)
 
 
 ## 1. Project Overview
@@ -56,7 +54,8 @@
 ### First Approach: CV Heuristic Functions
 
 - For my initial approach, Issues related to handling various angles and achieving high confidence in board recognition prompted me to explore this approach. I decided to implement computer vision (CV) heuristic functions like Shi-Tomasi corner detection, Canny edge detection, and Hough lines transformation to recognize the chessboard layout. But this lead to overlapping lines and points which were harder to predict and eliminate using even DBSCAN functions.
-
+![image](https://i.imgur.com/290LJvE.png)
+![image](https://i.imgur.com/SUukeZe.png)
 
 ### Second Approach: CNN and YOLO for Chessboard Recognition
 
